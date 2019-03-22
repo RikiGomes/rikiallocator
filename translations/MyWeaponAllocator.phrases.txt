@@ -10,112 +10,146 @@
 
 	"Bomb planted on Bombsite"
 	{
-		"en"		"Bomb planted on bombsite:"
+		"en"		"Bomb planted on Bombsite:"
+		"pt"		"Bomba plantada no Bombsite:"
 	}
 
 	"Pistol Round"
 	{
 		"en"		"Pistol Round"
+		"pt"		"Ronda de Pistola"
 	}
 
 	"Force Buy Round"
 	{
 		"en"		"Force Buy Round"
+		"pt"		"Ronda Force Buy"
 	}
 
 	"Full Buy Round"
 	{
 		"en"		"Full Buy Round"
+		"pt"		"Ronda Full Buy"
 	}
 
 	"Rifle Round"
 	{
-		"en"		"Rifle Only Round"
+		"en"		"Rifle Round"
+		"pt"		"Ronda de Rifle"
 	}
 
 	"Deagle Round"
 	{
 		"en"		"Deagle Round"
+		"pt"		"Ronda de Deagle"
 	}
 
 	"Now is"
 	{
 		"en"		"Now is:"
+		"pt"		"Agora e:"
 	}
 
 	"A-A-A"
 	{
 		"en"		"A-A-A"
+		"pt"		"A-A-A"
 	}
 
 	"B-B-B"
 	{
 		"en"		"B-B-B"
+		"pt"		"B-B-B"
 	}
 
-	"Select a CT rifle"
+	"Rifle CT"
 	{
-		"en"		"Select a CT rifle:"
+		"en"		"Select a CT Rifle:"
+		"pt"		"Seleciona a rifle CT:"
 	}
 
-	"Select a T rifle"
+	"Rifle T"
 	{
-		"en"		"Select a T rifle:"
+		"en"		"Select a T Rifle:"
+		"pt"		"Seleciona a rifle T:"
 	}
 
 	"Select a CT pistol"
 	{
-		"en"		"Select a CT pistol:"
+		"en"		"Secondary Pistol (CT):"
+		"pt"		"Pistola Secundária CT:"
 	}
 
 	"Select a T pistol"
 	{
-		"en"		"Select a T pistol:"
+		"en"		"Secondary Pistol (T):"
+		"pt"		"Pistola Secundária T:"
 	}
 
-	"Select a CT SMG"
+	"CT SMG"
 	{
 		"en"		"Select a CT SMG:"
+		"pt"		"Seleciona a SMG CT:"
 	}
 
-	"Select a T SMG"
+	"T SMG"
 	{
 		"en"		"Select a T SMG:"
+		"pt"		"Seleciona a SMG T:"
 	}
 
-	"Allow Sniper"
+	"Usar sniper?"
 	{
-		"en"		"Allow yourself to receive: \nSSG 08 in Force Buy and \nAWP in Full Buy?"
+		"en"		"Do you want to use:\nSSG 08 in Force Buy and \nAWP in Full Buy?"
+		"pt"		"Queres receber: \nSSG 08 em Force Buy e \nAWP em Full Buy?"
 	}
 
 	"Yes"
 	{
 		"en"		"Yes"
+		"pt"		"Sim"
 	}
 
 	"No"
 	{
 		"en"		"No"
+		"pt"		"Nao"
 	}
 
 	"on Bombsite"
 	{
 		"en"		"on bombsite:"
+		"pt"		"no bombsite:"
 	}
 
 	"Weapons next round"
 	{
-		"en"		"You'll get your new choice of weapons in the next round."
+		"en"		"You will receive your weapons next round."
+		"pt"		"Vais ter a nova escolha de armas na proxima ronda."
 	}
 
 	"Round Type"
 	{
-		"en"		"Round Type:"
+		"en"		"Round Type: "
+		"pt"		"Tipo da ronda: "
 	}
 
 	"You need to be in a team"
+	{	
+		"en"		"You need to be in a team to choose your loadout."
+		"pt"		"Tens de estar numa equipa para escolher as armas."
+	}
+
+	"CT Pistol Round Weapon"
 	{
-		"en"		"You have to be on a team to choose your weapons."
+		"en"		"Pistol Round weapon (CT)"
+		"pt"		"Arma para Pistol Rounds (CT)"
+	}
+
+	"T Pistol Round Weapon"
+	{
+		"en"		"Pistol Round weapon (T)"
+		"pt"		"Arma para Pistol Rounds (T)"
 	}
 
 }
