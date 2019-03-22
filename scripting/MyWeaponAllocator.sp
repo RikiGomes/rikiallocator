@@ -1,8 +1,10 @@
 /*
  * MyWeaponAllocator
  * by: shanapu
+ * edited by: Riki
  * 
  * Copyright (C) 2016-2018 Thomas Schmidt (shanapu)
+ * Copyright (C) 2019 Henrique Gomes (Riki)
  * Idea, commissioning & testing: Leeter & xooni
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -113,10 +115,10 @@ char g_sRoundType[64];
 public Plugin myinfo =
 {
 	name = "MyWeaponAllocator",
-	author = "shanapu",
+	author = "shanapu, Riki",
 	description = "Retakes weapon allocator",
 	version = "2.3",
-	url = "https://github.com/shanapu/MyWeaponAllocator"
+	url = "https://github.com/RikiGomes/MyWeaponAllocator"
 };
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err)
