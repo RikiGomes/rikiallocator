@@ -7,6 +7,14 @@ MyWeaponAllocator for splewis retakes - https://forums.alliedmods.net/showthread
 
 >**Modifications and Maintenence Developer** - Riki Gomes - [Riki](https://github.com/RikiGomes)
 
+## How to Install ##
+> Move the 'MyWeaponAllocator.smx' into 'csgo/addons/sourcemod/plugins/' folder.
+
+> Move the 'MyWeaponAllocator.phrases.txt' into 'csgo/addons/sourcemod/translations/' folder.
+
+>> **OPTIONAL** Move the files in the 'scripting' folder into 'csgo/addons/sourcemod/scripting' folder.
+
+## About ##
 This weapon allocator simulates different kinds of rounds - FULLBUY, FORCEBUY, PISTOL, (DEAGLE).
 These rounds will be set through two different modes. 
 Ascending rounds (mywa_rounds_chance 1) - first x rounds will be PISTOL, then x FORCEBUY rounds after that x FULLBUY rounds.
