@@ -219,9 +219,7 @@ public void OnPluginStart()
 
 	ConVar cRestartGame = FindConVar("mp_restartgame");
 	if (cRestartGame != INVALID_HANDLE)
-	{
 		HookConVarChange(cRestartGame, OnConVarChanged);
-	}
 }
 
 public void OnConVarChanged(ConVar convar, char[] oldValue, char[] newValue)
@@ -260,57 +258,39 @@ public void OnClientCookiesCached(int client)
 
 	GetClientCookie(client, g_hPistolRound_CT, sBuffer, sizeof(sBuffer));
 	if (strlen(sBuffer) > 5)
-	{
 		Format (g_sPistolRound_CT[client], sizeof(g_sPistolRound_CT), sBuffer);
-	}
 
 	GetClientCookie(client, g_hPrimary_CT, sBuffer, sizeof(sBuffer));
 	if (strlen(sBuffer) > 5)
-	{
 		Format (g_sPrimary_CT[client], sizeof(g_sPrimary_CT), sBuffer);
-	}
 
 	GetClientCookie(client, g_hSecondary_CT, sBuffer, sizeof(sBuffer));
 	if (strlen(sBuffer) > 5)
-	{
 		Format (g_sSecondary_CT[client], sizeof(g_sSecondary_CT), sBuffer);
-	}
 
 	GetClientCookie(client, g_hSMG_CT, sBuffer, sizeof(sBuffer));
 	if (strlen(sBuffer) > 5)
-	{
 		Format (g_sSMG_CT[client], sizeof(g_sSMG_CT), sBuffer);
-	}
 
 	GetClientCookie(client, g_hPistolRound_T, sBuffer, sizeof(sBuffer));
 	if (strlen(sBuffer) > 5)
-	{
 		Format (g_sPistolRound_T[client], sizeof(g_sPistolRound_T), sBuffer);
-	}
 
 	GetClientCookie(client, g_hPrimary_T, sBuffer, sizeof(sBuffer));
 	if (strlen(sBuffer) > 5)
-	{
 		Format (g_sPrimary_T[client], sizeof(g_sPrimary_T), sBuffer);
-	}
 
 	GetClientCookie(client, g_hSecondary_T, sBuffer, sizeof(sBuffer));
 	if (strlen(sBuffer) > 5)
-	{
 		Format (g_sSecondary_T[client], sizeof(g_sSecondary_T), sBuffer);
-	}
 
 	GetClientCookie(client, g_hSMG_T, sBuffer, sizeof(sBuffer));
 	if (strlen(sBuffer) > 5)
-	{
 		Format (g_sSMG_T[client], sizeof(g_sSMG_T), sBuffer);
-	}
 
 	GetClientCookie(client, g_hSniper, sBuffer, sizeof(sBuffer));
 	if (sBuffer[0] != '\0')
-	{
 		g_bSniper[client] = view_as<bool>(StringToInt(sBuffer));
-	}
 }
 
 public void OnPluginEnd()
@@ -485,13 +465,9 @@ public void Event_RoundStart(Event event, const char[] name, bool dontBroadcast)
 
 	iRound = GetRandomInt(1, 100);
 	if (iRound <= gc_iForceChance.IntValue)
-	{
 		SetRoundType(FORCE_ROUND);
-	}
 	else
-	{
 		SetRoundType(FULL_ROUND);
-	}
 }
 
 void SetRoundType(int type)
@@ -563,13 +539,9 @@ void ShowInfo()
 	Bombsite site = Retakes_GetCurrrentBombsite();
 
 	if (site == BombsiteA)
-	{
 		Format(g_sBombSite, sizeof(g_sBombSite), "%t", "A-A-A");
-	}
 	else if (site == BombsiteB)
-	{
 		Format(g_sBombSite, sizeof(g_sBombSite), "%t", "B-B-B");
-	}
 
 	CreateTimer (0.7, Timer_ShowInfo);
 }
@@ -588,13 +560,9 @@ public Action Timer_ShowInfo(Handle timer)
 void Menus_Weapons(int client)
 {
 	if (GetClientTeam(client) == CS_TEAM_CT)
-	{
 		g_bIsCT[client] = true;
-	}
 	else if (GetClientTeam(client) == CS_TEAM_T)
-	{
 		g_bIsCT[client] = false;
-	}
 	else
 	{
 		char sBuffer[128];
@@ -603,22 +571,58 @@ void Menus_Weapons(int client)
 		return;
 	}
 
+	if (gc_iMode.IntValue < 4)
+		Menu_MainMenu(client);
+	else 
+		Menu_PistolRound(client);
+}
+
+void Menu_MainMenu(int client)
+{
+	char sBuffer[255];
+	Menu menu = new Menu(Handler_MainMenu);
+
 	if (gc_iMode.IntValue < 2)
 	{
-		Menu_PistolRound(client);
+		Format(sBuffer, sizeof(sBuffer), "%t", "Pistol Round Weapon");
+		menu.AddItem("Pistol", sBuffer);
+
+		Format(sBuffer, sizeof(sBuffer), "%t", "Primary Weapon");
+		menu.AddItem("Primary", sBuffer);
+
+		Format(sBuffer, sizeof(sBuffer), "%t", "Secondary Weapon");
+		menu.AddItem("Secondary", sBuffer);
+
+		Format(sBuffer, sizeof(sBuffer), "%t", "Force-Buy");
+		menu.AddItem("SMG", sBuffer);
+
+		Format(sBuffer, sizeof(sBuffer), "%t", "Snipers");
+		menu.AddItem("Sniper", sBuffer);
 	}
 	else if (gc_iMode.IntValue == 2)
 	{
-		Menu_Primary(client);
+		Format(sBuffer, sizeof(sBuffer), "%t", "Primary Weapon");
+		menu.AddItem("Primary", sBuffer);
+
+		Format(sBuffer, sizeof(sBuffer), "%t", "Secondary Weapon");
+		menu.AddItem("Secondary", sBuffer);
+
+		Format(sBuffer, sizeof(sBuffer), "%t", "Snipers");
+		menu.AddItem("Sniper", sBuffer);
 	}
 	else if (gc_iMode.IntValue == 3)
 	{
-		Menu_SMG(client);
+		Format(sBuffer, sizeof(sBuffer), "%t", "Force-Buy");
+		menu.AddItem("SMG", sBuffer);
+
+		Format(sBuffer, sizeof(sBuffer), "%t", "Secondary Weapon");
+		menu.AddItem("Secondary", sBuffer);
 	}
-	else if (gc_iMode.IntValue == 4)
-	{
-		Menu_PistolRound(client);
-	}
+	Format(sBuffer, sizeof(sBuffer), "%t\n", "Main Menu");
+	menu.SetTitle(sBuffer);
+
+	menu.ExitButton = true;
+	menu.Display(client, MENU_TIME_FOREVER);
 }
 
 void Menu_PistolRound(int client)
@@ -663,12 +667,12 @@ void Menu_PistolRound(int client)
 void Menu_Primary(int client)
 {
 	char sBuffer[255];
-	Menu menu = new Menu(Handler_Primary);
+	Menu menu = new Menu(Handler_PrimaryWeapon);
 
 	if (g_bIsCT[client])
 	{
 		Format(sBuffer, sizeof(sBuffer), "%t\n", "Rifle CT");
-		menu.AddItem("weapon_m4a1", "M4AA");
+		menu.AddItem("weapon_m4a1", "M4A4");
 		menu.AddItem("weapon_m4a1_silencer", "M4A1-S");
 		menu.AddItem("weapon_famas", "FAMAS");
 		menu.AddItem("weapon_aug", "AUG");
@@ -752,7 +756,7 @@ void Menu_SMG(int client)
 
 	menu.SetTitle(sBuffer);
 	menu.ExitButton = true;
-
+	
 	menu.Display(client, MENU_TIME_FOREVER);
 }
 
@@ -772,6 +776,48 @@ public void Menu_AWP(int client)
 	menu.Display(client, MENU_TIME_FOREVER);
 }
 
+public int Handler_MainMenu(Menu menu, MenuAction action, int client, int selection)
+{
+	if (action == MenuAction_Select)
+	{
+		char sBuffer[24];
+		menu.GetItem(selection, sBuffer, sizeof(sBuffer));
+
+		if (strcmp(sBuffer, "Pistol") == 0)
+		{
+			Menu_PistolRound(client);
+		}
+		else if (strcmp(sBuffer, "Primary") == 0)
+		{
+			Menu_Primary(client);
+		}
+		else if (strcmp(sBuffer, "Secondary") == 0)
+		{
+			Menu_Secondary(client);
+		}
+		else if (strcmp(sBuffer, "SMG") == 0)
+		{
+			Menu_SMG(client);
+		}
+		else if (strcmp(sBuffer, "Sniper") == 0)
+		{
+			if (gc_iAWP_CT.BoolValue || gc_iScout_CT.BoolValue)
+			{
+				Menu_AWP(client);
+			}
+			else
+			{
+				Retakes_Message(client, "%t", "AWP not available");
+				Menu_MainMenu(client);
+			}
+		}
+		else
+		{
+			Retakes_Message(client, "%t", "Armas na próxima ronda");
+		}
+	}
+}
+
 public int Handler_PistolRound(Menu menu, MenuAction action, int client, int selection)
 {
 	if (action == MenuAction_Select)
@@ -781,26 +827,21 @@ public int Handler_PistolRound(Menu menu, MenuAction action, int client, int sel
 		menu.GetItem(selection, sBuffer, sizeof(sBuffer));
 
 		if (g_bIsCT[client])
-		{
 			Format (g_sPistolRound_CT[client], sizeof(g_sPistolRound_CT), sBuffer);
-		}
 		else if(!g_bIsCT[client])
-		{
 			Format (g_sPistolRound_T[client], sizeof(g_sPistolRound_T), sBuffer);
-		}
 
-		if (gc_iMode.IntValue < 2)
+		if (gc_iMode.IntValue < 4)
 		{
-			Menu_Primary(client);
+			Retakes_Message(client, "%t", "Chosen");
+			Menu_MainMenu(client);
 		}
 		else
-		{
-			Retakes_Message(client, "%t", "Armas na próxima ronda");
-		}
+			Retakes_Message(client, "%t", "Chosen");
 	}
 }
 
-public int Handler_Primary(Menu menu, MenuAction action, int client, int selection)
+public int Handler_PrimaryWeapon(Menu menu, MenuAction action, int client, int selection)
 {
 	if (action == MenuAction_Select)
 	{
@@ -809,22 +850,17 @@ public int Handler_Primary(Menu menu, MenuAction action, int client, int selecti
 		menu.GetItem(selection, sBuffer, sizeof(sBuffer));
 
 		if (g_bIsCT[client])
-		{
 			Format (g_sPrimary_CT[client], sizeof(g_sPrimary_CT), sBuffer);
-		}
 		else if(!g_bIsCT[client])
-		{
 			Format (g_sPrimary_T[client], sizeof(g_sPrimary_T), sBuffer);
-		}
 
-		if (gc_iMode.IntValue < 2)
-		{
-			Menu_Secondary(client);
+		if(gc_iMode.IntValue < 4)
+		{	
+			Retakes_Message(client, "%t", "Chosen");
+			Menu_MainMenu(client);
 		}
 		else
-		{
-			Retakes_Message(client, "%t", "Armas na próxima ronda");
-		}
+			Retakes_Message(client, "%t", "Chosen");
 	}
 }
 
@@ -837,22 +873,17 @@ public int Handler_Secondary(Menu menu, MenuAction action, int client, int selec
 		menu.GetItem(selection, sBuffer, sizeof(sBuffer));
 
 		if (g_bIsCT[client])
-		{
 			Format (g_sSecondary_CT[client], sizeof(g_sSecondary_CT), sBuffer);
-		}
 		else if(!g_bIsCT[client])
-		{
 			Format (g_sSecondary_T[client], sizeof(g_sSecondary_T), sBuffer);
-		}
 
-		if (gc_iMode.IntValue < 2 || gc_iMode.IntValue == 3)
+		if (gc_iMode.IntValue < 4)
 		{
-			Menu_SMG(client);
+			Retakes_Message(client, "%t", "Chosen");	
+			Menu_MainMenu(client);
 		}
 		else
-		{
-			Retakes_Message(client, "%t", "Weapons next round");
-		}
+			Retakes_Message(client, "%t", "Chosen");
 	}
 }
 
@@ -865,35 +896,17 @@ public int Handler_SMG(Menu menu, MenuAction action, int client, int selection)
 		menu.GetItem(selection, sBuffer, sizeof(sBuffer));
 
 		if (g_bIsCT[client])
-		{
 			Format (g_sSMG_CT[client], sizeof(g_sSMG_CT), sBuffer);
-
-			if (gc_iMode.IntValue > 1)
-			{
-				Retakes_Message(client, "%t", "Weapons next round");
-				return;
-			}
-
-			if (gc_iAWP_CT.BoolValue || gc_iScout_CT.BoolValue)
-			{
-				Menu_AWP(client);
-			}
-		}
 		else if(!g_bIsCT[client])
-		{
 			Format (g_sSMG_T[client], sizeof(g_sSMG_T), sBuffer);
-
-			if (gc_iMode.IntValue > 1)
-			{
-				Retakes_Message(client, "%t", "Weapons next round");
-				return;
-			}
-
-			if (gc_iAWP_T.BoolValue || gc_iScout_T.BoolValue)
-			{
-				Menu_AWP(client);
-			}
+		
+		if(gc_iMode.IntValue < 4)
+		{
+			Retakes_Message(client, "%t", "Chosen");	
+			Menu_MainMenu(client);
 		}
+		else 
+			Retakes_Message(client, "%t", "Chosen");
 	}
 }
 
@@ -906,15 +919,17 @@ public int Handler_AWP(Menu menu, MenuAction action, int client, int selection)
 		menu.GetItem(selection, sBuffer, sizeof(sBuffer));
 
 		if (strcmp(sBuffer, "1") == 0)
-		{
 			g_bSniper[client] = true;
-		}
 		else
-		{
 			g_bSniper[client] = false;
-		}
 
-		Retakes_Message(client, "%t", "Weapons next round");
+		if(gc_iMode.IntValue < 4)
+		{	
+			Retakes_Message(client, "%t", "Chosen");
+			Menu_MainMenu(client);
+		}
+		else 
+			Retakes_Message(client, "%t", "Chosen");
 	}
 }
 

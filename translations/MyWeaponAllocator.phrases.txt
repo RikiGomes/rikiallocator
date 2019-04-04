@@ -7,6 +7,53 @@
 //
 "Phrases"
 {
+	"Main Menu"
+	{
+		"en" 		"Weapon Allocator Main Menu"
+		"pt" 		"Menu Principal de Armas"
+	}
+
+	"Pistol Round Weapon"
+	{
+		"en"		"Pistol Round Weapon"
+		"pt"		"Arma para rondas de Pistol"
+	}
+
+	"Primary Weapon"
+	{
+		"en"		"Primary Weapon"
+		"pt"		"Rifle Principal"
+	}
+
+	"Secondary Weapon"
+	{
+		"en"		"Secondary Weapon"
+		"pt"		"Pistola para rondas Normais"
+	}
+
+	"Force-Buy"
+	{
+		"en"		"Force-Buy Weapon"
+		"pt"		"Armas para Force-Buy"
+	}
+
+	"Snipers"
+	{
+		"en"		"Snipers"
+		"pt"		"Snipers"
+	}
+
+	"AWP not available"
+	{
+		"en"		"AWP not available in this server"
+		"pt"		"AWP nao disponivel neste servidor"
+	}
+
+	"Chosen"
+	{
+		"en"		"Your choice will be available next round"
+		"pt"		"A tua escolha estara disponivel na proxima ronda"
+	}
 
 	"Bomb planted on Bombsite"
 	{
@@ -77,13 +124,13 @@
 	"Select a CT pistol"
 	{
 		"en"		"Secondary Pistol (CT):"
-		"pt"		"Pistola Secundária CT:"
+		"pt"		"Pistola Secundaria CT:"
 	}
 
 	"Select a T pistol"
 	{
 		"en"		"Secondary Pistol (T):"
-		"pt"		"Pistola Secundária T:"
+		"pt"		"Pistola Secundaria T:"
 	}
 
 	"CT SMG"
