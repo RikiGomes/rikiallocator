@@ -233,7 +233,7 @@ public void OnAllPluginsLoaded()
 	DisablePlugin("retakes_standardallocator");
 	DisablePlugin("retakes_ziksallocator");
 	DisablePlugin("retakes_gdk_allocator");
-	DisablePlugin("MyWeaponAllocator")
+	DisablePlugin("MyWeaponAllocator");
 	DisablePlugin("gunmenu");
 }
 
