@@ -117,7 +117,7 @@ public Plugin myinfo =
 	name = "Riki's Allocator",
 	author = "Riki, shanapu",
 	description = "Riki's Weapon Allocator for Retakes",
-	version = "1.0",
+	version = "2.0",
 	url = "https://github.com/RikiGomes/MyWeaponAllocator"
 };
 
