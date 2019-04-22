@@ -1,4 +1,4 @@
-Riki's Weapon Allocator
+I made the allocator completely based on shanapu's one. All credit to him
 
 Riki's Weapon Allocator for splewis retakes
 ## Authors ##
