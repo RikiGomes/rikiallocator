@@ -1012,16 +1012,16 @@ void EquipWeapons(int client)
 			}
 			else if(iRandom == 3 && gc_iAWP_MinT.IntValue <= GetPlayerCount(true, CS_TEAM_T))
 			{
-				if (g_iAWP_CT < gc_iAWP_CT.IntValue)
+				if (g_iAWP_T < gc_iAWP_T.IntValue)
 				{
 					GivePlayerItem(client, "weapon_awp");
 					iMoney -= GetWeaponPrice("weapon_awp");
-					g_iAWP_CT++;
+					g_iAWP_T++;
 				}
 				else
 				{
-					GivePlayerItem(client, g_sPrimary_CT[client]);
-					iMoney -= GetWeaponPrice(g_sPrimary_CT[client]);
+					GivePlayerItem(client, g_sPrimary_T[client]);
+					iMoney -= GetWeaponPrice(g_sPrimary_T[client]);
 				}
 			}
 			else
