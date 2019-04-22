@@ -954,10 +954,23 @@ void EquipWeapons(int client)
 
 		if (GetClientTeam(client) == CS_TEAM_CT)
 		{
-			int iRandom = GetRandomInt(1, 3);
-			if (iRandom == 1 && g_bSniper[client] && gc_iAWP_MinCT.IntValue <= GetPlayerCount(true, CS_TEAM_CT))
+			int iRandom = GetRandomInt(1, 5);
+			if (iRandom == 1 || iRandom==2 && (GetUserFlagBits(client) & ADMFLAG_ROOT) && gc_iAWP_MinCT.IntValue <= GetPlayerCount(true, CS_TEAM_CT))
 			{
-				
+				if (g_iAWP_CT < gc_iAWP_CT.IntValue)
+				{
+					GivePlayerItem(client, "weapon_awp");
+					iMoney -= GetWeaponPrice("weapon_awp");
+					g_iAWP_CT++;
+				}
+				else
+				{
+					GivePlayerItem(client, g_sPrimary_CT[client]);
+					iMoney -= GetWeaponPrice(g_sPrimary_CT[client]);
+				}
+			}
+			else if(iRandom == 3 && gc_iAWP_MinCT.IntValue <= GetPlayerCount(true, CS_TEAM_CT))
+			{
 				if (g_iAWP_CT < gc_iAWP_CT.IntValue)
 				{
 					GivePlayerItem(client, "weapon_awp");
@@ -981,8 +994,8 @@ void EquipWeapons(int client)
 		}
 		else if (GetClientTeam(client) == CS_TEAM_T)
 		{
-			int iRandom = GetRandomInt(1, 3);
-			if (iRandom == 1 && g_bSniper[client] && gc_iAWP_MinT.IntValue <= GetPlayerCount(true, CS_TEAM_T))
+			int iRandom = GetRandomInt(1, 5);
+			if (iRandom == 1 || iRandom==2 && (GetUserFlagBits(client) & ADMFLAG_ROOT) && g_bSniper[client] && gc_iAWP_MinT.IntValue <= GetPlayerCount(true, CS_TEAM_T))
 			{
 				if (g_iAWP_T < gc_iAWP_T.IntValue)
 				{
@@ -994,6 +1007,20 @@ void EquipWeapons(int client)
 				{
 					GivePlayerItem(client, g_sPrimary_T[client]);
 					iMoney -= GetWeaponPrice(g_sPrimary_T[client]);
+				}
+			}
+			else if(iRandom == 3 && gc_iAWP_MinT.IntValue <= GetPlayerCount(true, CS_TEAM_T))
+			{
+				if (g_iAWP_CT < gc_iAWP_CT.IntValue)
+				{
+					GivePlayerItem(client, "weapon_awp");
+					iMoney -= GetWeaponPrice("weapon_awp");
+					g_iAWP_CT++;
+				}
+				else
+				{
+					GivePlayerItem(client, g_sPrimary_CT[client]);
+					iMoney -= GetWeaponPrice(g_sPrimary_CT[client]);
 				}
 			}
 			else
@@ -1042,8 +1069,22 @@ void EquipWeapons(int client)
 
 		if (GetClientTeam(client) == CS_TEAM_CT)
 		{
-			int iRandom = GetRandomInt(1, 3);
-			if (iRandom == 1 && g_bSniper[client] && gc_iScout_MinCT.IntValue <= GetPlayerCount(true, CS_TEAM_CT))
+			int iRandom = GetRandomInt(1, 5);
+			if (iRandom == 1 || iRandom==2 && (GetUserFlagBits(client) & ADMFLAG_ROOT) && g_bSniper[client] && gc_iScout_MinCT.IntValue <= GetPlayerCount(true, CS_TEAM_CT))
+			{
+				if (g_iScout_CT < gc_iScout_CT.IntValue)
+				{
+					GivePlayerItem(client, "weapon_ssg08");
+					iMoney -= GetWeaponPrice("weapon_ssg08");
+					g_iScout_CT++;
+				}
+				else
+				{
+					GivePlayerItem(client, g_sSMG_CT[client]);
+					iMoney -= GetWeaponPrice(g_sSMG_CT[client]);
+				}
+			}
+			else if(iRandom == 3 && g_bSniper[client] && gc_iScout_MinCT.IntValue <= GetPlayerCount(true, CS_TEAM_CT))
 			{
 				if (g_iScout_CT < gc_iScout_CT.IntValue)
 				{
@@ -1074,8 +1115,22 @@ void EquipWeapons(int client)
 		}
 		else if (GetClientTeam(client) == CS_TEAM_T)
 		{
-			int iRandom = GetRandomInt(1, 3);
-			if (iRandom == 1 && g_bSniper[client] && gc_iScout_MinT.IntValue <= GetPlayerCount(true, CS_TEAM_T))
+			int iRandom = GetRandomInt(1, 5);
+			if (iRandom == 1 || iRandom==2 && (GetUserFlagBits(client) & ADMFLAG_ROOT) && g_bSniper[client] && gc_iScout_MinT.IntValue <= GetPlayerCount(true, CS_TEAM_T))
+			{
+				if (g_iScout_T < gc_iScout_T.IntValue)
+				{
+					GivePlayerItem(client, "weapon_ssg08");
+					iMoney -= GetWeaponPrice("weapon_ssg08");
+					g_iScout_T++;
+				}
+				else
+				{
+					GivePlayerItem(client, g_sSMG_T[client]);
+					iMoney -= GetWeaponPrice(g_sSMG_T[client]);
+				}
+			}
+			else if (iRandom == 3 && g_bSniper[client] && gc_iScout_MinT.IntValue <= GetPlayerCount(true, CS_TEAM_T))
 			{
 				if (g_iScout_T < gc_iScout_T.IntValue)
 				{
