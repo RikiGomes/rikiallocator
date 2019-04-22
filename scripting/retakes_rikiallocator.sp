@@ -114,10 +114,10 @@ char g_sRoundType[64];
 
 public Plugin myinfo =
 {
-	name = "MyWeaponAllocator",
-	author = "shanapu, Riki",
-	description = "Retakes weapon allocator",
-	version = "2.3",
+	name = "Riki's Allocator",
+	author = "Riki, shanapu",
+	description = "Riki's Weapon Allocator for Retakes",
+	version = "1.0",
 	url = "https://github.com/RikiGomes/MyWeaponAllocator"
 };
 
@@ -233,6 +233,7 @@ public void OnAllPluginsLoaded()
 	DisablePlugin("retakes_standardallocator");
 	DisablePlugin("retakes_ziksallocator");
 	DisablePlugin("retakes_gdk_allocator");
+	DisablePlugin("MyWeaponAllocator")
 	DisablePlugin("gunmenu");
 }
 
@@ -955,7 +956,7 @@ void EquipWeapons(int client)
 		if (GetClientTeam(client) == CS_TEAM_CT)
 		{
 			int iRandom = GetRandomInt(1, 5);
-			if (iRandom == 1 || iRandom==2 && (GetUserFlagBits(client) & ADMFLAG_ROOT) && gc_iAWP_MinCT.IntValue <= GetPlayerCount(true, CS_TEAM_CT))
+			if (iRandom == 1 || iRandom==2 && (GetUserFlagBits(client) & ADMFLAG_CUSTOM6) && gc_iAWP_MinCT.IntValue <= GetPlayerCount(true, CS_TEAM_CT))
 			{
 				if (g_iAWP_CT < gc_iAWP_CT.IntValue)
 				{
@@ -995,7 +996,7 @@ void EquipWeapons(int client)
 		else if (GetClientTeam(client) == CS_TEAM_T)
 		{
 			int iRandom = GetRandomInt(1, 5);
-			if (iRandom == 1 || iRandom==2 && (GetUserFlagBits(client) & ADMFLAG_ROOT) && g_bSniper[client] && gc_iAWP_MinT.IntValue <= GetPlayerCount(true, CS_TEAM_T))
+			if (iRandom == 1 || iRandom==2 && (GetUserFlagBits(client) & ADMFLAG_CUSTOM6) && g_bSniper[client] && gc_iAWP_MinT.IntValue <= GetPlayerCount(true, CS_TEAM_T))
 			{
 				if (g_iAWP_T < gc_iAWP_T.IntValue)
 				{
@@ -1070,7 +1071,7 @@ void EquipWeapons(int client)
 		if (GetClientTeam(client) == CS_TEAM_CT)
 		{
 			int iRandom = GetRandomInt(1, 5);
-			if (iRandom == 1 || iRandom==2 && (GetUserFlagBits(client) & ADMFLAG_ROOT) && g_bSniper[client] && gc_iScout_MinCT.IntValue <= GetPlayerCount(true, CS_TEAM_CT))
+			if (iRandom == 1 || iRandom==2 && (GetUserFlagBits(client) & ADMFLAG_CUSTOM6) && g_bSniper[client] && gc_iScout_MinCT.IntValue <= GetPlayerCount(true, CS_TEAM_CT))
 			{
 				if (g_iScout_CT < gc_iScout_CT.IntValue)
 				{
@@ -1116,7 +1117,7 @@ void EquipWeapons(int client)
 		else if (GetClientTeam(client) == CS_TEAM_T)
 		{
 			int iRandom = GetRandomInt(1, 5);
-			if (iRandom == 1 || iRandom==2 && (GetUserFlagBits(client) & ADMFLAG_ROOT) && g_bSniper[client] && gc_iScout_MinT.IntValue <= GetPlayerCount(true, CS_TEAM_T))
+			if (iRandom == 1 || iRandom==2 && (GetUserFlagBits(client) & ADMFLAG_CUSTOM6) && g_bSniper[client] && gc_iScout_MinT.IntValue <= GetPlayerCount(true, CS_TEAM_T))
 			{
 				if (g_iScout_T < gc_iScout_T.IntValue)
 				{
