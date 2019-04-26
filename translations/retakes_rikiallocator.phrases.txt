@@ -1,5 +1,11 @@
 "Phrases"
 {
+	"Prefix"
+	{
+		"en"		"[RikiAllocator]"
+		"pt"		"[RikiAllocator]"
+	}
+
 	"Main Menu"
 	{
 		"en" 		"Weapon Allocator Main Menu"
@@ -30,10 +36,10 @@
 		"pt"		"Armas para Force-Buy"
 	}
 
-	"Snipers"
+	"Which Sniper"
 	{
-		"en"		"Snipers"
-		"pt"		"Snipers"
+		"en"		"Which Sniper do you want to change?"
+		"pt"		"Qual Sniper pretende mudar?"
 	}
 
 	"AWP not available"
@@ -52,6 +58,12 @@
 	{
 		"en"		"Bomb planted on Bombsite:"
 		"pt"		"Bomba plantada no Bombsite:"
+	}
+
+	"Snipers"
+	{
+		"en"		"Snipers"
+		"pt"		"Snipers"
 	}
 
 	"Pistol Round"
@@ -138,10 +150,21 @@
 		"pt"		"Seleciona a SMG T:"
 	}
 
-	"Usar sniper?"
+	"Use AWP"
 	{
-		"en"		"Do you want to use:\nSSG 08 in Force Buy and \nAWP in Full Buy?"
-		"pt"		"Queres receber: \nSSG 08 em Force Buy e \nAWP em Full Buy?"
+		"en"		"Do you want to use: \nAWP in Full Buy rounds?"
+		"pt"		"Queres receber: \nAWP em rondas Full Buy?"
+	}
+
+	"Use Scout"
+	{
+		"en"		"Do you want to use: \nSSG08 in Force Buy rounds?"
+		"pt"		"Queres receber: \nSSG08 em rondas Force Buy?"
+	}
+
+	"AWP"
+	{
+
 	}
 
 	"Yes"

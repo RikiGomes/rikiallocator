@@ -1,5 +1,5 @@
 /*
- * MyWeaponAllocator
+ * Riki's Allocator
  * by: shanapu
  * edited by: Riki
  * 
@@ -38,7 +38,8 @@
 #define RIFLE_ROUND 5
 
 bool g_bIsLateLoad = false;
-bool g_bSniper[MAXPLAYERS + 1] = false;
+bool g_bAWP[MAXPLAYERS + 1] = false;
+bool g_bScout[MAXPLAYERS + 1] = false;
 bool g_bIsCT[MAXPLAYERS + 1] = false;
 
 Handle g_hPistolRound_CT = null;
@@ -49,7 +50,8 @@ Handle g_hPistolRound_T = null;
 Handle g_hPrimary_T = null;
 Handle g_hSecondary_T = null;
 Handle g_hSMG_T = null;
-Handle g_hSniper = null;
+Handle g_hAWP = null;
+Handle g_hScout = null;
 
 ConVar gc_bPlugin;
 ConVar gc_iMode;
@@ -114,11 +116,11 @@ char g_sRoundType[64];
 
 public Plugin myinfo =
 {
-	name = "Riki's Allocator",
+	name = "retakes_rikiallocator",
 	author = "Riki, shanapu",
 	description = "Riki's Weapon Allocator for Retakes",
 	version = "2.0",
-	url = "https://github.com/RikiGomes/MyWeaponAllocator"
+	url = "https://github.com/RikiGomes/rikiallocator"
 };
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err)
@@ -130,7 +132,7 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err)
 
 public void OnPluginStart()
 {
-	LoadTranslations("MyWeaponAllocator.phrases");
+	LoadTranslations("retakes_rikiallocator.phrases");
 
 	RegConsoleCmd("sm_weapon", Command_Weapons, "open the weapon menu");
 	RegConsoleCmd("sm_awp", Command_AWP, "open the AWP menu");
@@ -187,17 +189,18 @@ public void OnPluginStart()
 
 	HookEvent("round_start", Event_RoundStart, EventHookMode_Pre);
 	HookEvent("bomb_planted", Event_BombPlanted, EventHookMode_Post);
-//	HookEvent("begin_new_match", Event_BeginNewMatch);
 
-	g_hPistolRound_CT = RegClientCookie("MyWA - Pistol Round CT", "", CookieAccess_Private);
-	g_hPrimary_CT = RegClientCookie("MyWA - Primary CT", "", CookieAccess_Private);
-	g_hSecondary_CT = RegClientCookie("MyWA - Secondary CT", "", CookieAccess_Private);
-	g_hSMG_CT = RegClientCookie("MyWA MG - CT", "", CookieAccess_Private);
-	g_hPistolRound_T = RegClientCookie("MyWA - Pistol Round T", "", CookieAccess_Private);
-	g_hPrimary_T = RegClientCookie("MyWA - Primary T", "", CookieAccess_Private);
-	g_hSecondary_T = RegClientCookie("MyWA - Secondary T", "", CookieAccess_Private);
-	g_hSMG_T = RegClientCookie("MyWA - SMG T", "", CookieAccess_Private);
-	g_hSniper = RegClientCookie("MyWA - Sniper", "", CookieAccess_Private);
+	g_hPistolRound_CT = RegClientCookie("RikiAloc - Pistol Round CT", "", CookieAccess_Private);
+	g_hPrimary_CT = RegClientCookie("RikiAloc - Primary CT", "", CookieAccess_Private);
+	g_hSecondary_CT = RegClientCookie("RikiAloc - Secondary CT", "", CookieAccess_Private);
+	g_hSMG_CT = RegClientCookie("RikiAloc MG - CT", "", CookieAccess_Private);
+	g_hPistolRound_T = RegClientCookie("RikiAloc - Pistol Round T", "", CookieAccess_Private);
+	g_hPrimary_T = RegClientCookie("RikiAloc - Primary T", "", CookieAccess_Private);
+	g_hSecondary_T = RegClientCookie("RikiAloc - Secondary T", "", CookieAccess_Private);
+	g_hSMG_T = RegClientCookie("RikiAloc - SMG T", "", CookieAccess_Private);
+	g_hAWP = RegClientCookie("RikiAloc - AWP", "", CookieAccess_Private);
+	g_hScout = RegClientCookie("RikiAloc - Scout", "", CookieAccess_Private);
+
 
 	if (g_bIsLateLoad)
 	{
@@ -247,7 +250,8 @@ public void OnClientConnected(int client)
 	Format(g_sPrimary_T[client], sizeof(g_sPrimary_T), "weapon_ak47");
 	Format(g_sSecondary_T[client], sizeof(g_sSecondary_T), "weapon_glock");
 	Format(g_sSMG_T[client], sizeof(g_sSMG_T), "weapon_ump45");
-	g_bSniper[client] = false;
+	g_bAWP[client] = false;
+	g_bScout[client] = false;
 }
 
 public void OnClientCookiesCached(int client)
@@ -289,9 +293,13 @@ public void OnClientCookiesCached(int client)
 	if (strlen(sBuffer) > 5)
 		Format (g_sSMG_T[client], sizeof(g_sSMG_T), sBuffer);
 
-	GetClientCookie(client, g_hSniper, sBuffer, sizeof(sBuffer));
+	GetClientCookie(client, g_hAWP, sBuffer, sizeof(sBuffer));
 	if (sBuffer[0] != '\0')
-		g_bSniper[client] = view_as<bool>(StringToInt(sBuffer));
+		g_bAWP[client] = view_as<bool>(StringToInt(sBuffer));
+
+	GetClientCookie(client, g_hScout, sBuffer, sizeof(sBuffer));
+	if (sBuffer[0] != '\0')
+		g_bScout[client] = view_as<bool>(StringToInt(sBuffer));
 }
 
 public void OnPluginEnd()
@@ -318,7 +326,8 @@ public void OnClientDisconnect(int client)
 	SetClientCookie(client, g_hPrimary_T, g_sPrimary_T[client]);
 	SetClientCookie(client, g_hSecondary_T, g_sSecondary_T[client]);
 	SetClientCookie(client, g_hSMG_T, g_sSMG_T[client]);
-	SetClientCookie(client, g_hSniper, g_bSniper[client] ? "1" : "0");
+	SetClientCookie(client, g_hAWP, g_bAWP[client] ? "1" : "0");
+	SetClientCookie(client, g_hScout, g_bScout[client] ? "1" : "0");
 }
 
 public void OnMapEnd()
@@ -531,7 +540,7 @@ void EquipAllPlayerWeapon()
 
 void ShowInfo()
 {
-	PrintToServer("[tMW-Retakes] %t %s", "Round Type", g_sRoundType);
+	PrintToServer("%t %t %s", "Prefix", "Round Type", g_sRoundType);
 	Retakes_MessageToAll("%t %s", "Now is", g_sRoundType);
 
 	if(!gc_bBombsite.BoolValue)
@@ -761,6 +770,22 @@ void Menu_SMG(int client)
 	menu.Display(client, MENU_TIME_FOREVER);
 }
 
+public void Menu_Sniper(int client)
+{
+	char sBuffer[255];
+	Menu menu = new Menu(Handler_Sniper);
+
+	Format(sBuffer, sizeof(sBuffer), "AWP");
+	menu.AddItem("1", sBuffer);
+	Format(sBuffer, sizeof(sBuffer), "SSG08");
+	menu.AddItem("0", sBuffer);
+
+	Format(sBuffer, sizeof(sBuffer), "%t", "Which Sniper");
+
+	menu.SetTitle(sBuffer);
+	menu.Display(client, MENU_TIME_FOREVER);
+}
+
 public void Menu_AWP(int client)
 {
 	char sBuffer[255];
@@ -771,7 +796,23 @@ public void Menu_AWP(int client)
 	Format(sBuffer, sizeof(sBuffer), "%t", "No");
 	menu.AddItem("0", sBuffer);
 
-	Format(sBuffer, sizeof(sBuffer), "%t", "Usar sniper?");
+	Format(sBuffer, sizeof(sBuffer), "%t", "Use AWP");
+
+	menu.SetTitle(sBuffer);
+	menu.Display(client, MENU_TIME_FOREVER);
+}
+
+public void Menu_Scout(int client)
+{
+	char sBuffer[255];
+	Menu menu = new Menu(Handler_Scout);
+
+	Format(sBuffer, sizeof(sBuffer), "%t", "Yes");
+	menu.AddItem("1", sBuffer);
+	Format(sBuffer, sizeof(sBuffer), "%t", "No");
+	menu.AddItem("0", sBuffer);
+
+	Format(sBuffer, sizeof(sBuffer), "%t", "Use Scout");
 
 	menu.SetTitle(sBuffer);
 	menu.Display(client, MENU_TIME_FOREVER);
@@ -804,7 +845,7 @@ public int Handler_MainMenu(Menu menu, MenuAction action, int client, int select
 		{
 			if (gc_iAWP_CT.BoolValue || gc_iScout_CT.BoolValue)
 			{
-				Menu_AWP(client);
+				Menu_Sniper(client);
 			}
 			else
 			{
@@ -911,6 +952,21 @@ public int Handler_SMG(Menu menu, MenuAction action, int client, int selection)
 	}
 }
 
+public int Handler_Sniper(Menu menu, MenuAction action, int client, int selection)
+{
+	if (action == MenuAction_Select)
+	{
+		char sBuffer[24];
+		menu.GetItem(selection, sBuffer, sizeof(sBuffer));
+
+		if(strcmp(sBuffer, "1") == 0)
+			Menu_AWP(client);
+		else
+			Menu_Scout(client);	
+
+	}
+}
+
 public int Handler_AWP(Menu menu, MenuAction action, int client, int selection)
 {
 	if (action == MenuAction_Select)
@@ -920,9 +976,32 @@ public int Handler_AWP(Menu menu, MenuAction action, int client, int selection)
 		menu.GetItem(selection, sBuffer, sizeof(sBuffer));
 
 		if (strcmp(sBuffer, "1") == 0)
-			g_bSniper[client] = true;
+			g_bAWP[client] = true;
 		else
-			g_bSniper[client] = false;
+			g_bAWP[client] = false;
+
+		if(gc_iMode.IntValue < 4)
+		{	
+			Retakes_Message(client, "%t", "Chosen");
+			Menu_MainMenu(client);
+		}
+		else 
+			Retakes_Message(client, "%t", "Chosen");
+	}
+}
+
+public int Handler_Scout(Menu menu, MenuAction action, int client, int selection)
+{
+	if (action == MenuAction_Select)
+	{
+		char sBuffer[24];
+
+		menu.GetItem(selection, sBuffer, sizeof(sBuffer));
+
+		if (strcmp(sBuffer, "1") == 0)
+			g_bScout[client] = true;
+		else
+			g_bScout[client] = false;
 
 		if(gc_iMode.IntValue < 4)
 		{	
@@ -956,7 +1035,7 @@ void EquipWeapons(int client)
 		if (GetClientTeam(client) == CS_TEAM_CT)
 		{
 			int iRandom = GetRandomInt(1, 5);
-			if (iRandom == 1 || iRandom==2 && (GetUserFlagBits(client) & ADMFLAG_CUSTOM6) && gc_iAWP_MinCT.IntValue <= GetPlayerCount(true, CS_TEAM_CT))
+			if (iRandom == 1 || iRandom==2 && (GetUserFlagBits(client) & ADMFLAG_CUSTOM6) && g_bAWP[client] && gc_iAWP_MinCT.IntValue <= GetPlayerCount(true, CS_TEAM_CT))
 			{
 				if (g_iAWP_CT < gc_iAWP_CT.IntValue)
 				{
@@ -970,7 +1049,7 @@ void EquipWeapons(int client)
 					iMoney -= GetWeaponPrice(g_sPrimary_CT[client]);
 				}
 			}
-			else if(iRandom == 3 && gc_iAWP_MinCT.IntValue <= GetPlayerCount(true, CS_TEAM_CT))
+			else if(iRandom == 3 && g_bAWP[client] && gc_iAWP_MinCT.IntValue <= GetPlayerCount(true, CS_TEAM_CT))
 			{
 				if (g_iAWP_CT < gc_iAWP_CT.IntValue)
 				{
@@ -996,7 +1075,7 @@ void EquipWeapons(int client)
 		else if (GetClientTeam(client) == CS_TEAM_T)
 		{
 			int iRandom = GetRandomInt(1, 5);
-			if (iRandom == 1 || iRandom==2 && (GetUserFlagBits(client) & ADMFLAG_CUSTOM6) && g_bSniper[client] && gc_iAWP_MinT.IntValue <= GetPlayerCount(true, CS_TEAM_T))
+			if (iRandom == 1 || iRandom==2 && (GetUserFlagBits(client) & ADMFLAG_CUSTOM6) && g_bAWP[client] && gc_iAWP_MinT.IntValue <= GetPlayerCount(true, CS_TEAM_T))
 			{
 				if (g_iAWP_T < gc_iAWP_T.IntValue)
 				{
@@ -1010,7 +1089,7 @@ void EquipWeapons(int client)
 					iMoney -= GetWeaponPrice(g_sPrimary_T[client]);
 				}
 			}
-			else if(iRandom == 3 && gc_iAWP_MinT.IntValue <= GetPlayerCount(true, CS_TEAM_T))
+			else if(iRandom == 3 && g_bAWP[client] && gc_iAWP_MinT.IntValue <= GetPlayerCount(true, CS_TEAM_T))
 			{
 				if (g_iAWP_T < gc_iAWP_T.IntValue)
 				{
@@ -1071,7 +1150,7 @@ void EquipWeapons(int client)
 		if (GetClientTeam(client) == CS_TEAM_CT)
 		{
 			int iRandom = GetRandomInt(1, 5);
-			if (iRandom == 1 || iRandom==2 && (GetUserFlagBits(client) & ADMFLAG_CUSTOM6) && g_bSniper[client] && gc_iScout_MinCT.IntValue <= GetPlayerCount(true, CS_TEAM_CT))
+			if (iRandom == 1 || iRandom==2 && (GetUserFlagBits(client) & ADMFLAG_CUSTOM6) && g_bScout[client] && gc_iScout_MinCT.IntValue <= GetPlayerCount(true, CS_TEAM_CT))
 			{
 				if (g_iScout_CT < gc_iScout_CT.IntValue)
 				{
@@ -1085,7 +1164,7 @@ void EquipWeapons(int client)
 					iMoney -= GetWeaponPrice(g_sSMG_CT[client]);
 				}
 			}
-			else if(iRandom == 3 && g_bSniper[client] && gc_iScout_MinCT.IntValue <= GetPlayerCount(true, CS_TEAM_CT))
+			else if(iRandom == 3 && g_bScout[client] && gc_iScout_MinCT.IntValue <= GetPlayerCount(true, CS_TEAM_CT))
 			{
 				if (g_iScout_CT < gc_iScout_CT.IntValue)
 				{
@@ -1117,7 +1196,7 @@ void EquipWeapons(int client)
 		else if (GetClientTeam(client) == CS_TEAM_T)
 		{
 			int iRandom = GetRandomInt(1, 5);
-			if (iRandom == 1 || iRandom==2 && (GetUserFlagBits(client) & ADMFLAG_CUSTOM6) && g_bSniper[client] && gc_iScout_MinT.IntValue <= GetPlayerCount(true, CS_TEAM_T))
+			if (iRandom == 1 || iRandom==2 && (GetUserFlagBits(client) & ADMFLAG_CUSTOM6) && g_bScout[client] && gc_iScout_MinT.IntValue <= GetPlayerCount(true, CS_TEAM_T))
 			{
 				if (g_iScout_T < gc_iScout_T.IntValue)
 				{
@@ -1131,7 +1210,7 @@ void EquipWeapons(int client)
 					iMoney -= GetWeaponPrice(g_sSMG_T[client]);
 				}
 			}
-			else if (iRandom == 3 && g_bSniper[client] && gc_iScout_MinT.IntValue <= GetPlayerCount(true, CS_TEAM_T))
+			else if (iRandom == 3 && g_bScout[client] && gc_iScout_MinT.IntValue <= GetPlayerCount(true, CS_TEAM_T))
 			{
 				if (g_iScout_T < gc_iScout_T.IntValue)
 				{
